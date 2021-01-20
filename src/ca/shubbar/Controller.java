@@ -5,11 +5,12 @@ import ca.shubbar.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +25,8 @@ public class Controller {
     private TextArea itemDetailsTextArea;
     @FXML
     private Label deadlineLabel;
+    @FXML
+    private BorderPane mainBorderPane;
 
     public void initialize() {
 //        TodoItem item1 = new TodoItem("Mail birthday card",
@@ -59,7 +62,7 @@ public class Controller {
         todoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TodoItem>() {
             @Override
             public void changed(ObservableValue<? extends TodoItem> observable, TodoItem oldValue, TodoItem newValue) {
-                if(newValue != null) {
+                if (newValue != null) {
                     TodoItem todoItem = todoListView.getSelectionModel().getSelectedItem();
                     itemDetailsTextArea.setText(todoItem.getDetails());
                     DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy");
@@ -73,6 +76,19 @@ public class Controller {
 
         todoListView.getSelectionModel().selectFirst();
 
+    }
+
+    @FXML
+    public void showNewItemDialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("todoItemDialog.fxml"));
+            dialog.getDialogPane().setContent(root);
+        } catch (IOException e) {
+            System.out.println("Could not load the dialog" + e.getStackTrace());
+            return;
+        }
     }
 
     @FXML
