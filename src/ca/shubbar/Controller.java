@@ -12,13 +12,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -42,6 +48,9 @@ public class Controller {
     private ToggleButton filterToggleButton;
     @FXML
     private FilteredList<TodoItem> filteredList;
+
+    @FXML
+    private Label labelEffects;
 
 
     private Predicate<TodoItem> wantAllItems;
@@ -164,6 +173,8 @@ public class Controller {
             }
         });
 
+
+        filterToggleButton.setEffect(new DropShadow());
     }
 
     @FXML
@@ -250,6 +261,63 @@ public class Controller {
     public void handleExit() {
         Platform.exit();
     }
+
+    @FXML
+    public void handleMouseEnter() {
+        labelEffects.setScaleX(2.0);
+        labelEffects.setScaleY(2.0);
+    }
+
+    @FXML
+    public void handleMouseExit() {
+        labelEffects.setScaleX(1.0);
+        labelEffects.setScaleY(1.0);
+    }
+
+    @FXML
+    public void handleOpenFile() {
+        // choose a file
+//        FileChooser chooser = new FileChooser();
+//        File file = chooser.showOpenDialog(mainBorderPane.getScene().getWindow());
+
+//        // choose a directory
+//        DirectoryChooser chooser = new DirectoryChooser();
+//        File file = chooser.showDialog(mainBorderPane.getScene().getWindow());
+
+
+        // save dialog
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Todo Save demo dialog");
+
+
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text", "*.txt"),
+                new FileChooser.ExtensionFilter("PDF", "*.pdf"),
+                new FileChooser.ExtensionFilter("ALL FILES", "*.*")
+        );
+
+        // if one file
+//        File file = chooser.showSaveDialog(mainBorderPane.getScene().getWindow());
+//        if (file != null) {
+//            System.out.println(file.getPath());
+//        } else {
+//            System.out.println("chooser was cancelled");
+//        }
+
+
+        // Multi files
+        List<File> files = chooser.showOpenMultipleDialog(mainBorderPane.getScene().getWindow());
+        if (files != null) {
+            for (int i = 0; i < files.size(); i++) {
+                System.out.println(files.get(i).getPath());
+            }
+        } else {
+            System.out.println("chooser was cancelled");
+        }
+
+    }
+
+
 
 
 }

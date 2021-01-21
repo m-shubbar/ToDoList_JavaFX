@@ -17,12 +17,14 @@
 
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.ToggleButton?>
+
 <BorderPane fx:id="mainBorderPane" fx:controller="ca.shubbar.Controller"
-            xmlns:fx="http://javafx.com/fxml">
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@style.css">
     <top>
         <VBox>
             <MenuBar>
-                <Menu text="File">
+                <Menu text="File" id="menu-box">
                     <items>
                         <MenuItem text="New..." onAction="#showNewItemDialog"/>
                         <SeparatorMenuItem/>
@@ -47,6 +49,12 @@
                             <Tooltip text="Button Down: Show Today's items only. Button Up: Show all items"/>
                         </tooltip>
                     </ToggleButton>
+<!--                    <Separator/>-->
+<!--                    <Label fx:id="labelEffects" text="JavaFX Effects" onMouseEntered="#handleMouseEnter"-->
+<!--                           onMouseExited="#handleMouseExit"/>-->
+
+                    <Button text="Open..." onAction="#handleOpenFile"/>
+<!--                    <Hyperlink text="shubbar.ca" onAction="#handleLinkClick"/>-->
                 </HBox>
             </ToolBar>
         </VBox>
@@ -57,6 +65,7 @@
 
         </ListView>
     </left>
+
     <center>
         <VBox style="-fx-background-color: white">
             <TextArea fx:id="itemDetailsTextArea" VBox.vgrow="ALWAYS" wrapText="true"/>
